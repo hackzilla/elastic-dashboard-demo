@@ -1,0 +1,51 @@
+version: '2.1'
+
+volumes:
+    cache:
+        driver: local
+        driver_opts:
+            type: tmpfs
+            device: tmpfs
+            o: uid=33
+    logs:
+        driver: local
+        driver_opts:
+            type: tmpfs
+            device: tmpfs
+            o: uid=33
+
+services:
+  application:
+    image: hackzilla/elastic-talk
+    container_name: application
+    build: .
+    volumes:
+      - ./code:/var/www/html
+      - cache:/var/www/html/var/cache
+      - logs:/var/www/vhtml/ar/logs
+      - ./secrets:/run/secrets
+    links:
+      - database
+#    depends_on:
+#      database:
+#        condition: service_healthy
+    ports:
+      - 8888:80
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.2.2
+    container_name: elastic
+  database:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'test_pass' # TODO: Change this
+      MYSQL_USER: 'test'
+      MYSQL_PASS: 'pass'
+    volumes:
+      - ./data/database:/var/lib/mysql
+    healthcheck:
+      interval: 1s
+      timeout: 5s
+      test: nc -z localhost 3306"
+      retries: 5
