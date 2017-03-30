@@ -13,6 +13,8 @@ RUN apt-get update \
   && apt-get install -y php7.0-mysql \
   && docker-php-ext-install pdo_mysql
 
+RUN apt-get install -y mysql-client
+
 VOLUME ["/var/www/html"]
 ONBUILD COPY ./code /var/www/html
 
