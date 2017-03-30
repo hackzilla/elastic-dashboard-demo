@@ -41,6 +41,7 @@ services:
     container_name: elastic
     environment:
       - cluster.name=docker-cluster
+      - node.name=es1
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
