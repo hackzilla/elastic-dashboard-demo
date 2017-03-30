@@ -62,7 +62,8 @@ services:
     container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 'test_pass' # TODO: Change this
+      # TODO: Change this
+      MYSQL_ROOT_PASSWORD: 'test_pass'
       MYSQL_DATABASE: 'symfony'
       MYSQL_USER: 'test'
       MYSQL_PASS: 'pass'
