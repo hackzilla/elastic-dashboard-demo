@@ -26,8 +26,11 @@ services:
       - ./secrets:/run/secrets
     environment:
       MYSQL_DATABASE: 'symfony'
-      MYSQL_USER: 'test'
-      MYSQL_PASS: 'pass'
+      # Shouldn't be using root here
+      MYSQL_USER: 'root'
+      MYSQL_PASS: 'test_pass'
+#      MYSQL_USER: 'test'
+#      MYSQL_PASS: 'pass'
     links:
       - database
       - elastic
