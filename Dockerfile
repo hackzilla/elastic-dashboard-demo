@@ -10,12 +10,16 @@ RUN apt-get update \
   && wget https://www.dotdeb.org/dotdeb.gpg \
   && apt-key add dotdeb.gpg \
   && apt-get update \
-  && apt-get install -y php7.0-mysql \
+  && apt-get install -y php7.0-mysql mysql-client \
   && docker-php-ext-install pdo_mysql
 
-RUN apt-get install -y mysql-client
+RUN apt-get install -y sudo
 
 VOLUME ["/var/www/html"]
 ONBUILD COPY ./code /var/www/html
 
 WORKDIR /var/www/html/web
+
+COPY ./opt/startup.sh /opt/startup.sh
+
+CMD ["/opt/startup.sh"]
