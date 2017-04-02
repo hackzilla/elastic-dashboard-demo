@@ -77,3 +77,6 @@ services:
       timeout: 5s
       test: nc -z localhost 3306"
       retries: 5
+    ports:
+      - 3307:3306
+
