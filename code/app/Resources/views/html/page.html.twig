@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <ul>
+        {% for path in paths %}
+            <li><a href="{{ url('html', {path: path}) }}">{% if path %}{{ path }}{% else %}homepage{% endif %}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
