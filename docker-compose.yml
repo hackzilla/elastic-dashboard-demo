@@ -40,7 +40,7 @@ services:
     ports:
       - 8888:80
   elastic:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.2.2
+    image: hackzilla:elastic-agent
     container_name: elastic
     environment:
       - cluster.name=docker-cluster
