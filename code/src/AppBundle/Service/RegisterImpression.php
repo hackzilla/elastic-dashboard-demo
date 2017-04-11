@@ -4,19 +4,23 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Impression;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class RegisterImpression
 {
     private $manager;
+    private $requestStack;
 
-    public function __construct(EntityManager $manager)
+    public function __construct(RequestStack $requestStack, EntityManager $manager)
     {
         $this->manager = $manager;
+        $this->requestStack = $requestStack;
     }
 
-    public function impression(Request $request)
+    public function impression()
     {
+        $request = $this->requestStack->getCurrentRequest();
+
         $impression = new Impression();
         $referrer = $request->server->get('HTTP_REFERER');
 

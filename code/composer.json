@@ -20,9 +20,11 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "symfony/monolog-bundle": "^3.0.2",
         "symfony/polyfill-apcu": "^1.0",
+        "fzaninotto/faker": "^1.0",
         "symfony/swiftmailer-bundle": "^2.3.10",
         "symfony/symfony": "3.3.x-dev",
         "twig/twig": "^1.0||^2.0",
+        "elasticsearch/elasticsearch": "^5.0.0",
         "doctrine/doctrine-migrations-bundle": "^1.0"
     },
     "require-dev": {
@@ -44,12 +46,6 @@
         "post-update-cmd": [
             "@symfony-scripts"
         ]
-    },
-    "config": {
-        "platform": {
-            "php": "5.5.9"
-        },
-        "sort-packages": true
     },
     "extra": {
         "symfony-app-dir": "app",

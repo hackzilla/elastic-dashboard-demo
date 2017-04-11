@@ -6,7 +6,22 @@ parameters:
 services:
     register_impression:
         class: AppBundle\Service\RegisterImpression
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@request_stack', '@doctrine.orm.entity_manager']
 
     routes:
         class: AppBundle\Service\Route
+
+    app.impression_indexer_listener:
+        class: AppBundle\EventListener\ImpressionIndexerSubscriber
+        arguments:
+            - '@app.elastic'
+            - '%elastic_index%'
+            - '%elastic_type%'
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    app.elastic:
+        class: AppBundle\Service\Elastic
+        arguments:
+            - '%elastic_host%'
+            - '%elastic_port%'
