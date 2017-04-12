@@ -58,8 +58,10 @@ class ImpressionIndexerSubscriber implements EventSubscriber
             'type'  => $this->type,
             'id'    => $impression->getId(),
             'body'  => [
+                'user_agent' => $impression->getUserAgent(),
                 'doc' => $document,
             ],
+            'pipeline' => 'user_agent',
         ]);
     }
 }
