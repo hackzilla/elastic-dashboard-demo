@@ -6,6 +6,11 @@ use AppBundle\Entity\Impression;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Class RegisterImpression
+ *
+ * @package AppBundle\Service
+ */
 class RegisterImpression
 {
     private $manager;
@@ -17,6 +22,9 @@ class RegisterImpression
         $this->requestStack = $requestStack;
     }
 
+    /**
+     * Capture impression and store in db
+     */
     public function impression()
     {
         $request = $this->requestStack->getCurrentRequest();
