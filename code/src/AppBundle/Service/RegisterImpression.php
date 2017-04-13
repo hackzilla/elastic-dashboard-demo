@@ -38,11 +38,28 @@ class RegisterImpression
 
         $impression->setEventDate(\DateTime::createFromFormat('U', $request->server->get('REQUEST_TIME')));
         $impression->setIpAddress($request->getClientIp());
-        $impression->setDestination($request->server->get('REQUEST_URI'));
-        $impression->setReferrer($referrer);
+        $impression->setDestination($this->stripFrontController($request->server->get('REQUEST_URI')));
+        $impression->setReferrer($this->stripFrontController($referrer));
         $impression->setUserAgent($request->server->get('HTTP_USER_AGENT'));
 
         $this->manager->persist($impression);
         $this->manager->flush();
+    }
+
+    /**
+     * Remove front controller.
+     * e.g. /app.php or /app_dev.php
+     *
+     * @param string $uri
+     *
+     * @return string
+     */
+    private function stripFrontController($uri)
+    {
+        if (preg_match('|/app(_.*[^.])?\.php(.*)|', $uri, $matches)) {
+            return $matches[2];
+        }
+
+        return $uri;
     }
 }
