@@ -8,7 +8,7 @@ RUN apt-get update \
   && echo 'deb https://packages.sury.org/php/ jessie main' >> /etc/apt/sources.list \
   && curl -s "https://packages.sury.org/php/apt.gpg" > /etc/apt/trusted.gpg.d/php.gpg \
   && apt-get update \
-  && apt-get install -y php7.1-mysql mysql-client \
+  && apt-get install -y php7.1-mysql php7.1-opcache php7.1-apcu php7.1-intl mysql-client \
   && docker-php-ext-install pdo_mysql
 
 
