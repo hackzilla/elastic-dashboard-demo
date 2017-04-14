@@ -37,18 +37,19 @@ EOF
                             'type' => 'date',
                         ],
                         'agent' => [
-                            'type' => 'string',
+                            'type' => 'keyword',
+                            'index' => 'yes',
                         ],
                         'ip_address' => [
                             'type' => 'ip',
                         ],
                         'destination' => [
-                            'type' => 'string',
-                            'index' => 'not_analyzed',
+                            'type' => 'keyword',
+                            'index' => 'yes',
                         ],
                         'referrer' => [
-                            'type' => 'string',
-                            'index' => 'not_analyzed',
+                            'type' => 'keyword',
+                            'index' => 'yes',
                         ],
                     ],
                 ],
