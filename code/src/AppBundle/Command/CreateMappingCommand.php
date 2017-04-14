@@ -38,18 +38,18 @@ EOF
                         ],
                         'agent' => [
                             'type' => 'keyword',
-                            'index' => 'yes',
+                            'index' => true,
                         ],
                         'ip_address' => [
                             'type' => 'ip',
                         ],
                         'destination' => [
                             'type' => 'keyword',
-                            'index' => 'yes',
+                            'index' => true,
                         ],
                         'referrer' => [
                             'type' => 'keyword',
-                            'index' => 'yes',
+                            'index' => true,
                         ],
                     ],
                 ],
