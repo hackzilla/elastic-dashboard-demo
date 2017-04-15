@@ -1,0 +1,221 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        .chart {
+            padding: 1em;
+            margin-right: 2em;
+            display: block;
+            /*float: left;*/
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1>Dashboard</h1>
+    <ul>
+        <li>Total Users (ips)</li> gauge
+        <li>sessions (ip & agent)</li> gauge
+        <li>Views</li> gauge
+        <li>Popular pages - ranked</li> Column
+        <li>browser</li>  pie
+        <li>operating system</li> pie
+        <li>flow from one page to another?!</li>
+        <li></li>
+    </ul>
+
+    <form>
+        Time
+        <select name="period" id="period">
+            {% for value, label in timeOptions %}
+                <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <div>
+        <div id="users_chart" class="chart"></div>
+        <div id="popular_pages_chart" class="chart"></div>
+        <div id="browser_chart" class="chart" style="width: 700px; height: 500px;"></div>
+        <div id="operating_system_chart" class="chart" style="width: 700px; height: 500px;"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="{{ asset('jquery-3.2.1.min.js') }}"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart', 'gauge']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        var interval = 5000;
+        var period = 1;
+
+        $('#period').change(function () {
+            period = $(this).val();
+        });
+
+        function drawChart()
+        {
+            var users_data = google.visualization.arrayToDataTable([
+                ['Label', 'Value'],
+                ['Users', 0],
+                ['Sessions', 0],
+                ['Views', 0],
+            ]);
+
+            var users_options = {
+                width: 400, height: 120,
+                redFrom: 90, redTo: 100,
+                yellowFrom: 75, yellowTo: 90,
+                minorTicks: 5
+            };
+
+            var users_chart = new google.visualization.Gauge(document.getElementById('users_chart'));
+            users_chart.draw(users_data, users_options);
+
+            setInterval(function() {
+                $.getJSON('{{ url('widget_total_users') }}?period=' + period)
+                    .fail(function () {
+                        console.warn('failed to load: widget_total_users');
+                    })
+                    .done(function (json) {
+                        users_data.setValue(0, 1, parseInt(json['value']));
+                        users_chart.draw(users_data, users_options);
+                    });
+
+                $.getJSON('{{ url('widget_session') }}?period=' + period)
+                    .fail(function () {
+                        console.warn('failed to load: widget_session');
+                    })
+                    .done(function (json) {
+                        users_data.setValue(1, 1, parseInt(json['value']));
+                        users_chart.draw(users_data, users_options);
+                    });
+
+                $.getJSON('{{ url('widget_views') }}?period=' + period)
+                    .fail(function () {
+                        console.warn('failed to load: widget_views');
+                    })
+                    .done(function (json) {
+                        users_data.setValue(2, 1, parseInt(json['value']));
+                        users_chart.draw(users_data, users_options);
+                    });
+            }, interval);
+
+            /**********************************************************************************************************/
+
+            var popular_pages_data = google.visualization.arrayToDataTable([
+                ['Page', 'Count' ],
+                ['homepage', 0 ],
+            ]);
+
+            var popular_pages_options = {
+                title: "Popular Pages",
+                width: 600,
+                height: 400,
+                bar: {groupWidth: "95%"},
+                legend: { position: "none" },
+            };
+
+            var popular_pages_chart = new google.visualization.ColumnChart(document.getElementById("popular_pages_chart"));
+            var popular_pages_view = new google.visualization.DataView(popular_pages_data);
+            popular_pages_chart.draw(popular_pages_view, popular_pages_options);
+
+            setInterval(function() {
+                $.getJSON('{{ url('widget_pages') }}?period=' + period)
+                    .fail(function () {
+                        console.warn('failed to load: widget_pages');
+                    })
+                    .done(function (json) {
+                        var data = [
+                            ['Page', 'Count' ],
+                        ];
+
+                        for (var k in json){
+                            if (json.hasOwnProperty(k)) {
+                                data.push([k, json[k]]);
+                            }
+                        }
+
+                        var popular_pages_data = google.visualization.arrayToDataTable(data);
+                        var popular_pages_view = new google.visualization.DataView(popular_pages_data);
+                        popular_pages_chart.draw(popular_pages_view, popular_pages_options);
+                    });
+
+            }, interval);
+
+            /**********************************************************************************************************/
+
+            var browser_data = google.visualization.arrayToDataTable([
+                ['Browser', 'Pages'],
+            ]);
+
+            var browser_options = {
+                title: 'Browser Breakdown'
+            };
+
+            var browser_chart = new google.visualization.PieChart(document.getElementById('browser_chart'));
+            browser_chart.draw(browser_data, browser_options);
+
+            setInterval(function() {
+                $.getJSON('{{ url('widget_browser') }}?period=' + period)
+                    .fail(function () {
+                        console.warn('failed to load: widget_browser');
+                    })
+                    .done(function (json) {
+                        var data = [
+                            ['Browser', 'Pages'],
+                        ];
+
+                        for (var k in json){
+                            if (json.hasOwnProperty(k)) {
+                                data.push([k, json[k]]);
+                            }
+                        }
+
+                        var browser_data = google.visualization.arrayToDataTable(data);
+                        var browser_view = new google.visualization.DataView(browser_data);
+                        browser_chart.draw(browser_view, browser_options);
+                    });
+
+            }, interval);
+
+            /**********************************************************************************************************/
+
+            var operating_system_data = google.visualization.arrayToDataTable([
+                ['OS', 'Pages'],
+            ]);
+
+            var operating_system_options = {
+                title: 'Operating System Breakdown'
+            };
+
+            var operating_system_chart = new google.visualization.PieChart(document.getElementById('operating_system_chart'));
+            operating_system_chart.draw(operating_system_data, operating_system_options);
+
+            setInterval(function() {
+                $.getJSON('{{ url('widget_operating_system') }}?period=' + period)
+                    .fail(function () {
+                        console.warn('failed to load: widget_operating_system');
+                    })
+                    .done(function (json) {
+                        var data = [
+                            ['OS', 'Pages'],
+                        ];
+
+                        for (var k in json){
+                            if (json.hasOwnProperty(k)) {
+                                data.push([k, json[k]]);
+                            }
+                        }
+
+                        var operating_system_data = google.visualization.arrayToDataTable(data);
+                        var operating_system_view = new google.visualization.DataView(operating_system_data);
+                        operating_system_chart.draw(operating_system_view, operating_system_options);
+                    });
+
+            }, interval);
+        }
+    </script>
+{% endblock %}
