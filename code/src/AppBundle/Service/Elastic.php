@@ -11,6 +11,22 @@ use Elasticsearch\ClientBuilder;
  */
 class Elastic
 {
+    const timeOption1Min = 1;
+    const timeOption5Min = 2;
+    const timeOption30Min = 3;
+    const timeOption60Min = 4;
+    const timeOptionToday = 10;
+    const timeOptionYesterday = 20;
+
+    static $timeOptions = [
+        self::timeOption1Min => '1 min',
+        self::timeOption5Min => '5 min',
+        self::timeOption30Min => '30 min',
+        self::timeOption60Min => '60 min',
+        self::timeOptionToday => 'today',
+        self::timeOptionYesterday => 'yesterday',
+    ];
+
     private $client;
 
     /**
