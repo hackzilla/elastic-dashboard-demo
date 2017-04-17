@@ -50,4 +50,50 @@ class Elastic
     {
         return $this->client;
     }
+
+    public function getDateTimeFilter($timeOption)
+    {
+        switch ($timeOption) {
+            case self::timeOption1Min:
+            default:
+                $fromDate = 'now-1m';
+                $toDate = 'now';
+                break;
+
+            case self::timeOption5Min:
+                $fromDate = 'now-5m';
+                $toDate = 'now';
+                break;
+
+            case self::timeOption30Min:
+                $fromDate = 'now-30m';
+                $toDate = 'now';
+                break;
+
+            case self::timeOption60Min:
+                $fromDate = 'now-60m';
+                $toDate = 'now';
+                break;
+
+            case self::timeOptionToday:
+                $fromDate = 'now/d';
+                $toDate = 'now';
+                break;
+
+            case self::timeOptionYesterday:
+                $fromDate = 'now/d-1d';
+                $toDate = 'now/d';
+                break;
+        }
+
+        $range = [
+            'field' => 'doc.event_date',
+            'ranges' => [
+                'from' => $fromDate,
+                'to' => $toDate,
+            ],
+        ];
+
+        return $range;
+    }
 }
