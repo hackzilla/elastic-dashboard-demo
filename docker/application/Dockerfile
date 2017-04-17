@@ -11,49 +11,6 @@ RUN apt-get update \
   && apt-get install -y mysql-client libicu-dev libxml2-dev \
   && docker-php-ext-install pdo_mysql intl simplexml opcache
 
-
-
-##########################################################
-##  Build PHP with pthreads
-##  https://hub.docker.com/r/jdecool/php-pthreads/~/dockerfile/
-##########################################################
-#
-## php -r "echo phpversion();"
-#ENV VERSION 7.1.1
-#
-#RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-#	autoconf \
-#	build-essential \
-#	libssl-dev \
-#	libxml2-dev
-#
-#RUN curl -s "http://fr2.php.net/get/php-$VERSION.tar.bz2/from/this/mirror" > php-$VERSION.tar.bz2 \
-#	&& tar xjf php-$VERSION.tar.bz2 \
-#	&& cd php-$VERSION \
-#	&& ./configure \
-#		--disable-cgi \
-#		--enable-mbstring \
-#		--enable-maintainer-zts \
-#		--enable-zip \
-#		--with-libdir=/lib/x86_64-linux-gnu \
-#		--with-openssl \
-#	&& make \
-#	&& make install \
-#	&& cp php.ini-production /usr/local/lib/php.ini \
-#	&& cd .. \
-#	&& pecl config-set php_ini /usr/local/lib/php.ini \
-#	&& pear config-set php_ini /usr/local/lib/php.ini \
-#	&& pecl install pthreads
-#
-#RUN rm php-$VERSION.tar.bz2 \
-#	&& rm -rf php-$VERSION \
-#	&& apt-get purge -y autoconf build-essential .+-dev \
-#	&& apt-get clean \
-#	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-#########################################################
-
-
 VOLUME ["/var/www/html"]
 ONBUILD COPY ./code /var/www/html
 
