@@ -14,16 +14,16 @@ class BrowserController extends Controller
      */
     public function dataAction(Request $request)
     {
-        $elasticSerivce = $this->get('app.elastic');
+        $elasticService = $this->get('app.elastic');
 
-        $queryResponse = $elasticSerivce->getClient()->search($query = [
+        $queryResponse = $elasticService->getClient()->search($query = [
             'index' => $this->getParameter('elastic_index'),
             'type' => $this->getParameter('elastic_type'),
             'body' => [
                 'size' => 0,
                 'aggs' => [
                     'browsers' => [
-                        'range' => $elasticSerivce->getDateTimeFilter($request->query->get('period', Elastic::timeOptionToday)),
+                        'range' => $elasticService->getDateTimeFilter($request->query->get('period', Elastic::timeOptionToday)),
                         'aggs' => [
                             'breakdown' => [
                                 'terms' => [
