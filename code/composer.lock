@@ -972,16 +972,16 @@
         },
         {
             "name": "elasticsearch/elasticsearch",
-            "version": "v5.1.3",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elastic/elasticsearch-php.git",
-                "reference": "ee931ebb6f371dc31eecbd9ec2ab2cc563823453"
+                "reference": "dc57bbcd4be2c9061ebe5be59058ea8bdebc904e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/ee931ebb6f371dc31eecbd9ec2ab2cc563823453",
-                "reference": "ee931ebb6f371dc31eecbd9ec2ab2cc563823453",
+                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/dc57bbcd4be2c9061ebe5be59058ea8bdebc904e",
+                "reference": "dc57bbcd4be2c9061ebe5be59058ea8bdebc904e",
                 "shasum": ""
             },
             "require": {
@@ -1023,7 +1023,7 @@
                 "elasticsearch",
                 "search"
             ],
-            "time": "2017-02-06 13:20:44"
+            "time": "2017-04-12 20:40:50"
         },
         {
             "name": "fig/link-util",
@@ -2536,12 +2536,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "bbb0d5ed424a2215588b65720434a0de34611ea0"
+                "reference": "ac5cfee6f12f5c93fe8d8b67941fd478dfaa397a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/bbb0d5ed424a2215588b65720434a0de34611ea0",
-                "reference": "bbb0d5ed424a2215588b65720434a0de34611ea0",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/ac5cfee6f12f5c93fe8d8b67941fd478dfaa397a",
+                "reference": "ac5cfee6f12f5c93fe8d8b67941fd478dfaa397a",
                 "shasum": ""
             },
             "require": {
@@ -2682,7 +2682,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-04-10 17:50:33"
+            "time": "2017-04-14 23:49:57"
         },
         {
             "name": "twig/twig",
