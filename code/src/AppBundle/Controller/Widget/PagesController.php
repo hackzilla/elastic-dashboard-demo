@@ -2,20 +2,51 @@
 
 namespace AppBundle\Controller\Widget;
 
+use AppBundle\Service\Elastic;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class PagesController extends Controller
 {
     /**
      * @Route("/dashboard/pages", name="widget_pages")
      */
-    public function dataAction()
+    public function dataAction(Request $request)
     {
-        return $this->json([
-            'html/a' => rand(40, 100),
-            'html/b' => rand(40, 100),
-            'html/c' => rand(40, 100),
+        $elasticSerivce = $this->get('app.elastic');
+
+        $queryResponse = $elasticSerivce->getClient()->search($query = [
+            'index' => $this->getParameter('elastic_index'),
+            'type' => $this->getParameter('elastic_type'),
+            'body' => [
+                'size' => 0,
+                'aggs' => [
+                    'pages' => [
+                        'range' => $elasticSerivce->getDateTimeFilter($request->query->get('period', Elastic::timeOptionToday)),
+                        'aggs' => [
+                            'breakdown' => [
+                                'terms' => [
+                                    'field' => 'doc.destination.keyword',
+                                    'size' => 10,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]);
+
+        $data = [];
+
+        if (empty($queryResponse['aggregations']['pages']['buckets'][0]['breakdown']['buckets'])) {
+            return $this->json($data);
+        }
+
+        foreach ($queryResponse['aggregations']['pages']['buckets'][0]['breakdown']['buckets'] as $bucket) {
+            $data[$bucket['key']] = $bucket['doc_count'];
+        }
+
+        return $this->json($data);
     }
 }
