@@ -61,7 +61,7 @@
             var users_chart = new google.visualization.Gauge(document.getElementById('users_chart'));
             users_chart.draw(users_data, users_options);
 
-            setInterval(function() {
+            setInterval(func = function() {
                 $.getJSON('{{ url('widget_total_users') }}?period=' + period)
                     .fail(function () {
                         console.warn('failed to load: widget_total_users');
@@ -90,6 +90,8 @@
                     });
             }, interval);
 
+            func();
+
             /**********************************************************************************************************/
 
             var popular_pages_data = google.visualization.arrayToDataTable([
@@ -109,7 +111,7 @@
             var popular_pages_view = new google.visualization.DataView(popular_pages_data);
             popular_pages_chart.draw(popular_pages_view, popular_pages_options);
 
-            setInterval(function() {
+            setInterval(func = function() {
                 $.getJSON('{{ url('widget_pages') }}?period=' + period)
                     .fail(function () {
                         console.warn('failed to load: widget_pages');
@@ -133,8 +135,9 @@
                         var popular_pages_view = new google.visualization.DataView(popular_pages_data);
                         popular_pages_chart.draw(popular_pages_view, popular_pages_options);
                     });
-
             }, interval);
+
+            func();
 
             /**********************************************************************************************************/
 
@@ -149,7 +152,7 @@
             var browser_chart = new google.visualization.PieChart(document.getElementById('browser_chart'));
             browser_chart.draw(browser_data, browser_options);
 
-            setInterval(function() {
+            setInterval(func = function() {
                 $.getJSON('{{ url('widget_browser') }}?period=' + period)
                     .fail(function () {
                         console.warn('failed to load: widget_browser');
@@ -169,8 +172,9 @@
                         var browser_view = new google.visualization.DataView(browser_data);
                         browser_chart.draw(browser_view, browser_options);
                     });
-
             }, interval);
+
+            func();
 
             /**********************************************************************************************************/
 
@@ -185,7 +189,7 @@
             var operating_system_chart = new google.visualization.PieChart(document.getElementById('operating_system_chart'));
             operating_system_chart.draw(operating_system_data, operating_system_options);
 
-            setInterval(function() {
+            setInterval(func = function() {
                 $.getJSON('{{ url('widget_operating_system') }}?period=' + period)
                     .fail(function () {
                         console.warn('failed to load: widget_operating_system');
@@ -205,8 +209,9 @@
                         var operating_system_view = new google.visualization.DataView(operating_system_data);
                         operating_system_chart.draw(operating_system_view, operating_system_options);
                     });
-
             }, interval);
+
+            func();
         }
     </script>
 {% endblock %}
