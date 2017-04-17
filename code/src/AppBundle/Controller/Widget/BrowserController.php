@@ -21,16 +21,16 @@ class BrowserController extends Controller
             'type' => $this->getParameter('elastic_type'),
             'body' => [
                 'size' => 0,
+                'query' => [
+                    'range' => $elasticService->getDateTimeFilter(
+                        $request->query->get('period', Elastic::timeOptionToday)
+                    ),
+                ],
                 'aggs' => [
                     'browsers' => [
-                        'range' => $elasticService->getDateTimeFilter($request->query->get('period', Elastic::timeOptionToday)),
-                        'aggs' => [
-                            'breakdown' => [
-                                'terms' => [
-                                    'field' => 'user_agent.name.keyword',
-                                    'size' => 10,
-                                ],
-                            ],
+                        'terms' => [
+                            'field' => 'user_agent.name.keyword',
+                            'size' => 10,
                         ],
                     ],
                 ],
@@ -39,11 +39,11 @@ class BrowserController extends Controller
 
         $data = [];
 
-        if (empty($queryResponse['aggregations']['browsers']['buckets'][0]['breakdown']['buckets'])) {
+        if (empty($queryResponse['aggregations']['browsers']['buckets'])) {
             return $this->json($data);
         }
 
-        foreach ($queryResponse['aggregations']['browsers']['buckets'][0]['breakdown']['buckets'] as $bucket) {
+        foreach ($queryResponse['aggregations']['browsers']['buckets'] as $bucket) {
             $data[$bucket['key']] = $bucket['doc_count'];
         }
 

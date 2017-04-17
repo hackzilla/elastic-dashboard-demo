@@ -21,29 +21,29 @@ class TotalUsersController extends Controller
             'type' => $this->getParameter('elastic_type'),
             'body' => [
                 'size' => 0,
+                'query' => [
+                    'range' => $elasticService->getDateTimeFilter(
+                        $request->query->get('period', Elastic::timeOptionToday)
+                    ),
+                ],
                 'aggs' => [
-                    'pages' => [
-                        'range' => $elasticService->getDateTimeFilter($request->query->get('period', Elastic::timeOptionToday)),
-                        'aggs' => [
-                            'users' => [
-                                'cardinality' => [
-                                    'field' => 'doc.ip_address.keyword',
-                                ],
-                            ],
+                    'users' => [
+                        'cardinality' => [
+                            'field' => 'doc.ip_address.keyword',
                         ],
                     ],
                 ],
             ],
         ]);
 
-        if (empty($queryResponse['aggregations']['pages']['buckets'][0]['users']['value'])) {
+        if (empty($queryResponse['aggregations']['users']['value'])) {
             return $this->json([
                 'value' => 0,
             ]);
         }
 
         return $this->json([
-            'value' => $queryResponse['aggregations']['pages']['buckets'][0]['users']['value'],
+            'value' => $queryResponse['aggregations']['users']['value'],
         ]);
     }
 }

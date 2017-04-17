@@ -21,16 +21,16 @@ class OperatingSystemController extends Controller
             'type' => $this->getParameter('elastic_type'),
             'body' => [
                 'size' => 0,
+                'query' => [
+                    'range' => $elasticService->getDateTimeFilter(
+                        $request->query->get('period', Elastic::timeOptionToday)
+                    ),
+                ],
                 'aggs' => [
                     'os' => [
-                        'range' => $elasticService->getDateTimeFilter($request->query->get('period', Elastic::timeOptionToday)),
-                        'aggs' => [
-                            'breakdown' => [
-                                'terms' => [
-                                    'field' => 'user_agent.os_name.keyword',
-                                    'size' => 10,
-                                ],
-                            ],
+                        'terms' => [
+                            'field' => 'user_agent.os_name.keyword',
+                            'size' => 10,
                         ],
                     ],
                 ],
@@ -39,11 +39,11 @@ class OperatingSystemController extends Controller
 
         $data = [];
 
-        if (empty($queryResponse['aggregations']['os']['buckets'][0]['breakdown']['buckets'])) {
+        if (empty($queryResponse['aggregations']['os']['buckets'])) {
             return $this->json($data);
         }
 
-        foreach ($queryResponse['aggregations']['os']['buckets'][0]['breakdown']['buckets'] as $bucket) {
+        foreach ($queryResponse['aggregations']['os']['buckets'] as $bucket) {
             $data[$bucket['key']] = $bucket['doc_count'];
         }
 

@@ -21,16 +21,16 @@ class PagesController extends Controller
             'type' => $this->getParameter('elastic_type'),
             'body' => [
                 'size' => 0,
+                'query' => [
+                    'range' => $elasticService->getDateTimeFilter(
+                        $request->query->get('period', Elastic::timeOptionToday)
+                    ),
+                ],
                 'aggs' => [
                     'pages' => [
-                        'range' => $elasticService->getDateTimeFilter($request->query->get('period', Elastic::timeOptionToday)),
-                        'aggs' => [
-                            'breakdown' => [
-                                'terms' => [
-                                    'field' => 'doc.destination.keyword',
-                                    'size' => 10,
-                                ],
-                            ],
+                        'terms' => [
+                            'field' => 'doc.destination.keyword',
+                            'size' => 10,
                         ],
                     ],
                 ],
@@ -39,11 +39,11 @@ class PagesController extends Controller
 
         $data = [];
 
-        if (empty($queryResponse['aggregations']['pages']['buckets'][0]['breakdown']['buckets'])) {
+        if (empty($queryResponse['aggregations']['pages']['buckets'])) {
             return $this->json($data);
         }
 
-        foreach ($queryResponse['aggregations']['pages']['buckets'][0]['breakdown']['buckets'] as $bucket) {
+        foreach ($queryResponse['aggregations']['pages']['buckets'] as $bucket) {
             $data[$bucket['key']] = $bucket['doc_count'];
         }
 

@@ -25,7 +25,7 @@ class SessionController extends Controller
                     'query' => [
                         'range' => $elasticService->getDateTimeFilter(
                             $request->query->get('period', Elastic::timeOptionToday)
-                        , false),
+                        ),
                     ],
                     'aggs' => [
                         'users' => [
