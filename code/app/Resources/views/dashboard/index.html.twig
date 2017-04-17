@@ -2,11 +2,9 @@
 
 {% block stylesheets %}
     <style>
-        .chart {
-            padding: 1em;
-            margin-right: 2em;
+        div > div.chart {
             display: block;
-            /*float: left;*/
+            float: left;
         }
     </style>
 {% endblock %}
@@ -22,8 +20,8 @@
         </select>
     </form>
 
+    <div id="users_chart" class="chart"></div>
     <div>
-        <div id="users_chart" class="chart"></div>
         <div id="popular_pages_chart" class="chart"></div>
         <div id="browser_chart" class="chart" style="width: 700px; height: 500px;"></div>
         <div id="operating_system_chart" class="chart" style="width: 700px; height: 500px;"></div>
