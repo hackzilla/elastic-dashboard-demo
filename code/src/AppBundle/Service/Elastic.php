@@ -51,7 +51,7 @@ class Elastic
         return $this->client;
     }
 
-    public function getDateTimeFilter($timeOption)
+    public function getDateTimeFilter($timeOption, $aggs = true)
     {
         switch ($timeOption) {
             case self::timeOption1Min:
@@ -76,7 +76,7 @@ class Elastic
                 break;
 
             case self::timeOptionToday:
-                $fromDate = 'now/d';
+                $fromDate = 'now/d-1d';
                 $toDate = 'now';
                 break;
 
@@ -86,13 +86,22 @@ class Elastic
                 break;
         }
 
-        $range = [
-            'field' => 'doc.event_date',
-            'ranges' => [
-                'from' => $fromDate,
-                'to' => $toDate,
-            ],
-        ];
+        if ($aggs) {
+            $range = [
+                'field'  => 'doc.event_date',
+                'ranges' => [
+                    'from' => $fromDate,
+                    'to'   => $toDate,
+                ],
+            ];
+        } else {
+            $range = [
+                'doc.event_date'  => [
+                    'gte' => $fromDate,
+                    'lt'   => $toDate,
+                ],
+            ];
+        }
 
         return $range;
     }
