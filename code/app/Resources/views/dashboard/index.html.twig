@@ -121,13 +121,16 @@
                             ['Page', 'Count' ],
                         ];
 
-                        if (json.length > 0) {
-                            for (var k in json){
-                                if (json.hasOwnProperty(k)) {
-                                    data.push([k, json[k]]);
-                                }
+                        var empty = true;
+
+                        for (var k in json){
+                            if (json.hasOwnProperty(k)) {
+                                data.push([k, json[k]]);
+                                empty = false;
                             }
-                        } else {
+                        }
+
+                        if (empty) {
                             data.push(['No data', 0 ]);
                         }
 
