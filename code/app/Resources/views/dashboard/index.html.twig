@@ -38,8 +38,12 @@
         var interval = 5000;
         var period = 1;
 
-        $('#period').change(function () {
-            period = $(this).val();
+        $(document).ready(function () {
+            $('#period').change(function () {
+                period = $(this).val();
+            });
+
+            period = $('#period').val();
         });
 
         function drawChart()
