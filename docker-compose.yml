@@ -16,7 +16,6 @@ volumes:
 
 services:
   application:
-    image: hackzilla/elastic-talk
     container_name: application
     build:
       context: .
@@ -43,7 +42,6 @@ services:
       - 8888:80
     restart: always
   elastic:
-    image: hackzilla/elastic-agent
     build:
       context: .
       dockerfile: docker/elastic/Dockerfile
