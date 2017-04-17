@@ -15,7 +15,7 @@
         Time
         <select name="period" id="period">
             {% for value, label in timeOptions %}
-                <option value="{{ value }}">{{ label }}</option>
+                <option value="{{ value }}"{% if value == period %} selected="selected"{% endif %}>{{ label }}</option>
             {% endfor %}
         </select>
     </form>

@@ -16,6 +16,7 @@ class DashboardController extends Controller
     {
         return $this->render('dashboard/index.html.twig', [
             'timeOptions' => Elastic::$timeOptions,
+            'period' => $request->query->get('period'),
         ]);
     }
 }
