@@ -68,6 +68,7 @@ services:
     healthcheck:
       test: ['CMD', 'curl', '-f', '-u', 'elastic:changeme', 'http://localhost:9200']
   database:
+    user: "1000:50"
     image: mysql:5.7
     container_name: mysql
     restart: always
