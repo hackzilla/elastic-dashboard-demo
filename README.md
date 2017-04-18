@@ -61,6 +61,7 @@ docker-compose down
 # Demo
 
 ```bash
+composer install --no-interaction --working-dir=./code;
 docker-compose build;
 docker-compose up -d;
 ./code/bin/console app:generate:impressions
