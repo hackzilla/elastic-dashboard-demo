@@ -23,7 +23,7 @@ services:
     volumes:
       - ./code:/var/www/html
       - cache:/var/www/html/var/cache
-      - logs:/var/www/vhtml/ar/logs
+      - logs:/var/www/html/var/logs
       - ./secrets:/run/secrets
     environment:
       MYSQL_DATABASE: 'symfony'
