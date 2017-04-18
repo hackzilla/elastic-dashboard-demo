@@ -13,6 +13,12 @@ volumes:
             type: tmpfs
             device: tmpfs
             o: uid=33
+    sessions:
+        driver: local
+        driver_opts:
+            type: tmpfs
+            device: tmpfs
+            o: uid=33
 
 services:
   application:
@@ -24,6 +30,7 @@ services:
       - ./code:/var/www/html
       - cache:/var/www/html/var/cache
       - logs:/var/www/html/var/logs
+      - sessions:/var/www/html/var/sessions
       - ./secrets:/run/secrets
     environment:
       MYSQL_DATABASE: 'symfony'
