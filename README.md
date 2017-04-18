@@ -60,6 +60,9 @@ docker-compose down
 
 # Demo
 
+You will need to modify your docker enviroment to increase `vm.max_map_count` otherwise Elastic will refuse to start.
+https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+
 ```bash
 composer install --no-interaction --working-dir=./code;
 docker-compose build;
