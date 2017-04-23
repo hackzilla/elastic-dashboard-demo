@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:5.3.0
+FROM docker.elastic.co/elasticsearch/elasticsearch:5.3.1
 
 ENV xpack.security.enabled false
 ENV xpack.monitoring.enabled false
