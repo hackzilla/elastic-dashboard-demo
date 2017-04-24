@@ -29,7 +29,7 @@ class PagesController extends Controller
                 'aggs' => [
                     'pages' => [
                         'terms' => [
-                            'field' => 'doc.destination.keyword',
+                            'field' => 'destination',
                             'size' => 10,
                         ],
                     ],

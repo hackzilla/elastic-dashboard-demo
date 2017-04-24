@@ -87,7 +87,7 @@ class Elastic
         }
 
         $range = [
-            'doc.event_date'  => [
+            'event_date'  => [
                 'gte' => $fromDate,
                 'lt'   => $toDate,
             ],

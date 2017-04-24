@@ -30,12 +30,12 @@ class SessionController extends Controller
                     'aggs' => [
                         'users' => [
                             'terms' => [
-                                'field' => 'doc.ip_address.keyword',
+                                'field' => 'ip_address.keyword',
                             ],
                             'aggs'  => [
                                 'browsers' => [
                                     'terms' => [
-                                        'field' => 'doc.user_agent.keyword',
+                                        'field' => 'user_agent.keyword',
                                     ],
                                 ],
                             ],

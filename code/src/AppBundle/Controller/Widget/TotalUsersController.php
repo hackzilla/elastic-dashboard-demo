@@ -29,7 +29,7 @@ class TotalUsersController extends Controller
                 'aggs' => [
                     'users' => [
                         'cardinality' => [
-                            'field' => 'doc.ip_address.keyword',
+                            'field' => 'ip_address.keyword',
                         ],
                     ],
                 ],
