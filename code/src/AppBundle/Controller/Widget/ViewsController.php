@@ -21,6 +21,7 @@ class ViewsController extends Controller
             'index' => $this->getParameter('elastic_index'),
             'type' => $this->getParameter('elastic_type'),
             'body' => [
+                'size' => 0,
                 'query' => [
                     'range' => $elasticService->getDateTimeFilter($timeOption, false),
                 ],
