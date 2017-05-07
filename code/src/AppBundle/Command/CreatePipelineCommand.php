@@ -34,7 +34,7 @@ EOF
                 "processors"  => [
                     [
                         "user_agent" => [
-                            "field" => "user_agent",
+                            "field" => "user_agent_string",
                         ],
                     ],
                 ],

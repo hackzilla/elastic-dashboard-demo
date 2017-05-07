@@ -46,7 +46,7 @@ class ImpressionIndexerSubscriber implements EventSubscriber
     {
         $document = [
             'event_date' => $impression->getEventDate()->format(DATE_ATOM),
-            'user_agent' => $impression->getUserAgent(),
+            'user_agent_string' => $impression->getUserAgent(),
             'ip_address' => $impression->getIpAddress(),
             'destination' => $impression->getDestination(),
             'referrer' => $impression->getReferrer(),
