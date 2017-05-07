@@ -1,7 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:5.3.1
+FROM docker.elastic.co/elasticsearch/elasticsearch:5.4.0
 
-ENV xpack.security.enabled false
-ENV xpack.monitoring.enabled false
-
-RUN bin/elasticsearch-plugin install ingest-user-agent
+RUN bin/elasticsearch-plugin remove x-pack
 #RUN sysctl -w vm.max_map_count=262144
